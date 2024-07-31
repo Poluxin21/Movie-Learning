@@ -32,7 +32,7 @@ movie-recommendation/
 2. Clone este repositório:
     ```bash
     git clone https://github.com/Poluxin21/ML-Recommender
-    cd movie-recommendation
+    cd ML-Recommender
     ```
 3. Instale as dependências:
     ```bash
