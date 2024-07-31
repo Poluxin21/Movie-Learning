@@ -4,6 +4,7 @@ Este projeto demonstra um sistema de recomendação de filmes que utiliza um arq
 
 ## Dependências
 
+- DataSet MovieLens-100K (https://grouplens.org/datasets/movielens/100k/)
 - pandas
 - numpy
 - scikit-learn
