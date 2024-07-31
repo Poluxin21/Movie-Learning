@@ -5,7 +5,7 @@ Este projeto é um sistema de recomendação de filmes que utiliza a API do TMDB
 ## Estrutura do Projeto
 
 ```
-movie-recommendation/
+../
 │
 ├── data/
 │ ├── user_searches.txt
