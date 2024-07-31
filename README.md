@@ -1,4 +1,4 @@
-# Sistema de Recomendação de Filmes Baseado em Pesquisas
+# Sistema de Recomendação de Filmes Baseado em Pesquisas Recentes do Usuario
 
 Este projeto demonstra um sistema de recomendação de filmes que utiliza um arquivo de texto com as pesquisas dos usuários para gerar recomendações.
 
