@@ -3,7 +3,7 @@ import json
 import os
 
 
-API_KEY = '800d7152787bb58d98304adbf121fce1'
+API_KEY = 'API_KEY'
 
 def get_movie_id(title, api_key):
     url = f'https://api.themoviedb.org/3/search/movie'
