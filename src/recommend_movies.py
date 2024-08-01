@@ -1,7 +1,7 @@
 import json
 import requests
 
-API_KEY = '800d7152787bb58d98304adbf121fce1'
+API_KEY = 'API_KEY'
 
 def load_movie_genres(json_file_path):
     with open(json_file_path, 'r') as json_file:
