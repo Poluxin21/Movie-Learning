@@ -31,7 +31,7 @@ Este projeto é um sistema de recomendação de filmes que utiliza a API do TMDB
 1. Crie uma conta e obtenha uma chave de API do [TMDB](https://www.themoviedb.org/).
 2. Clone este repositório:
     ```bash
-    git clone https://github.com/Poluxin21/ML-Recommender
+    git clone https://github.com/Poluxin21/Movie-Learning
     cd ML-Recommender
     ```
 3. Instale as dependências:
