@@ -1,37 +1,29 @@
 import json
-import requests
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
-API_KEY = 'API_KEY'
-
-def load_movie_genres(json_file_path):
+def load_movie_data(json_file_path):
     with open(json_file_path, 'r') as json_file:
         data = json.load(json_file)
         if not data:
             print("O arquivo JSON está vazio ou não foi carregado corretamente.")
-        return data
+        return pd.DataFrame(data)
 
-def get_similar_movies(movie_id, api_key, num_similar=3):
-    url = f'https://api.themoviedb.org/3/movie/{movie_id}/similar'
-    params = {
-        'api_key': api_key,
-        'language': 'pt-BR', # Aqui coloque seu idioma
-        'page': 1
-    }
-    response = requests.get(url, params=params)
-    results = response.json().get('results', [])
-    similar_movies = [movie['title'] for movie in results[:num_similar]]
-    return similar_movies
+def prepare_features(movie_data):
+    movie_data['combined_features'] = movie_data.apply(lambda x: x['genres'] + ' ' + x['description'], axis=1)
+    tfidf = TfidfVectorizer(stop_words='english')
+    tfidf_matrix = tfidf.fit_transform(movie_data['combined_features'])
+    return tfidf_matrix
 
-def recommend_movies(searches, movie_genres, api_key, num_recommendations=5):
-    all_similar_movies = []
+def get_recommendations(title, movie_data, tfidf_matrix, num_recommendations=5):
+    idx = movie_data[movie_data['title'] == title].index[0]
 
-    for title in searches:
-        if title in movie_genres:
-            movie_id = movie_genres[title]['id']
-            similar_movies = get_similar_movies(movie_id, api_key, num_similar=num_recommendations)
-            all_similar_movies.extend(similar_movies)
-
-    return list(set(all_similar_movies)) 
+    cosine_similarities = cosine_similarity(tfidf_matrix[idx], tfidf_matrix).flatten()
+    
+    similar_indices = cosine_similarities.argsort()[-(num_recommendations+1):-1][::-1]
+    
+    return movie_data['title'].iloc[similar_indices].tolist()
 
 def read_user_searches(file_path):
     with open(file_path, 'r') as file:
@@ -41,7 +33,17 @@ def read_user_searches(file_path):
 if __name__ == "__main__":
     search_file_path = '../data/user_searches.txt'
     json_file_path = '../data/movie_genres.json'
-    movie_genres = load_movie_genres(json_file_path)
+    
+    movie_data = load_movie_data(json_file_path)
+    tfidf_matrix = prepare_features(movie_data)
+    
     user_searches = read_user_searches(search_file_path)
-    recommended_movies = recommend_movies(user_searches, movie_genres, API_KEY)
+    
+    all_recommended_movies = []
+    for search in user_searches:
+        if search in movie_data['title'].values:
+            recommendations = get_recommendations(search, movie_data, tfidf_matrix)
+            all_recommended_movies.extend(recommendations)
+    
+    recommended_movies = list(set(all_recommended_movies))
     print("Filmes recomendados:", recommended_movies)
