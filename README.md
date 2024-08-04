@@ -32,7 +32,7 @@ Este projeto é um sistema de recomendação de filmes que utiliza a API do TMDB
 2. Clone este repositório:
     ```bash
     git clone https://github.com/Poluxin21/Movie-Learning
-    cd ML-Recommender
+    cd Movie-Learning
     ```
 3. Instale as dependências:
     ```bash
